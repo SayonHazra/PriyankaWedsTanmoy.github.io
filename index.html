@@ -3,761 +3,769 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Metal Weight Calculator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Tanmoy & Priyanka - Wedding Invitation</title>
+    <!-- 
+        INSTRUCTIONS: To add your couple photo as background:
+        1. Save your couple photo in the same folder as this HTML file
+        2. Name it 'couple-photo.jpg' (or update the filename in the CSS below)
+        3. The photo will appear as a beautiful background on the home screen
+        4. The overlay ensures text remains readable
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-red: #C41E3A;
+            --deep-red: #8B0000;
+            --golden-yellow: #FFD700;
+            --burnt-orange: #CC5500;
+            --cream: #FFF8DC;
+            --dark-maroon: #5C0A0A;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, var(--cream) 0%, #FFF5E6 100%);
+            color: var(--dark-maroon);
+            overflow-x: hidden;
         }
-        /* Hide calculator panes by default */
-        .calc-pane {
-            display: none;
+
+        /* Decorative Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(196, 30, 58, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
-        /* Show the active pane */
-        .calc-pane.active {
-            display: block;
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
         }
-        /* Style for active nav link */
-        .nav-link.active {
-            background-color: #2563eb; /* blue-600 */
-            color: white;
-        }
-        .nav-link.active svg {
-            color: white;
-            opacity: 1;
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            background: 
+                linear-gradient(to bottom, rgba(255, 248, 220, 0.85), rgba(255, 245, 230, 0.9)),
+                url('couple-photo.jpg') center/cover no-repeat;
+            background-attachment: fixed;
         }
         
-        /* Animation for result box */
-        .result-box {
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-        }
-        .result-box.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Input focus glow */
-        input:focus, select:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue-500 with transparency */
-            border-color: #3b82f6; /* blue-500 */
+        /* Fallback pattern if no image is uploaded */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="paisley" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="2" fill="%23FFD700" opacity="0.3"/><circle cx="25" cy="25" r="1.5" fill="%23C41E3A" opacity="0.2"/><circle cx="75" cy="75" r="1.5" fill="%23C41E3A" opacity="0.2"/></pattern></defs><rect width="100" height="100" fill="url(%23paisley)"/></svg>');
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* Custom scrollbar for Webkit browsers */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px; /* For horizontal scrollbars */
+        .decorative-border {
+            border: 3px solid var(--golden-yellow);
+            border-radius: 20px;
+            padding: 60px 40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 20px 60px rgba(196, 30, 58, 0.2),
+                inset 0 0 30px rgba(255, 215, 0, 0.1);
+            max-width: 900px;
+            position: relative;
+            animation: fadeInScale 1.2s ease-out;
         }
 
-        ::-webkit-scrollbar-track {
-            background: #e0e0e0; /* Light gray for track */
-            border-radius: 10px;
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
-        .dark ::-webkit-scrollbar-track {
-            background: #374151; /* Dark gray for track in dark mode */
+        .decorative-border::before,
+        .decorative-border::after {
+            content: '✦';
+            position: absolute;
+            font-size: 2rem;
+            color: var(--golden-yellow);
+            animation: sparkle 2s infinite;
         }
 
-        ::-webkit-scrollbar-thumb {
-            background: #a0a0a0; /* Gray for thumb */
-            border-radius: 10px;
+        .decorative-border::before {
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .dark ::-webkit-scrollbar-thumb {
-            background: #6b7280; /* Darker gray for thumb in dark mode */
+        .decorative-border::after {
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: #888; /* Darker gray on hover */
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.6; transform: translateX(-50%) scale(1.2); }
         }
 
-        .dark ::-webkit-scrollbar-thumb:hover {
-            background: #555; /* Even darker gray on hover in dark mode */
+        .mantra {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--deep-red);
+            margin-bottom: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            line-height: 1.8;
+            animation: fadeIn 1.5s ease-out 0.3s both;
         }
 
-        /* Hide plate inputs by default */
-        #plateRectInputs, #plateCircInputs {
-            display: none;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .invitation-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            color: var(--burnt-orange);
+            margin-bottom: 25px;
+            font-style: italic;
+            animation: fadeIn 1.5s ease-out 0.6s both;
+        }
+
+        .couple-names {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--burnt-orange) 50%, var(--golden-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 20px 0;
+            line-height: 1.2;
+            animation: fadeIn 1.5s ease-out 0.9s both;
+        }
+
+        .ampersand {
+            font-size: 3rem;
+            display: inline-block;
+            margin: 0 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Couple Photos */
+        .couple-photos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin: 40px 0 30px;
+            flex-wrap: wrap;
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid var(--golden-yellow);
+            box-shadow: 
+                0 10px 40px rgba(196, 30, 58, 0.3),
+                inset 0 0 20px rgba(255, 215, 0, 0.2);
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--cream), white);
+            transition: all 0.4s ease;
+            animation: fadeIn 1.5s ease-out 0.4s both;
+        }
+
+        .photo-frame:hover {
+            transform: scale(1.08) rotate(2deg);
+            box-shadow: 
+                0 15px 50px rgba(196, 30, 58, 0.4),
+                inset 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-red);
+            opacity: 0.5;
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .photo-frame:hover img {
+            transform: scale(1.1);
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--primary-red);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(196, 30, 58, 0.1));
+        }
+
+        .photo-label {
+            text-align: center;
+            margin-top: 15px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--deep-red);
+            font-weight: 600;
+        }
+
+        .photo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .heart-divider {
+            font-size: 2.5rem;
+            color: var(--primary-red);
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+        }
+
+        .wedding-date-display {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--deep-red);
+            margin: 30px 0;
+            font-weight: 600;
+            animation: fadeIn 1.5s ease-out 1.2s both;
+        }
+
+        /* Countdown Timer */
+        .countdown-section {
+            margin: 40px 0;
+            animation: fadeIn 1.5s ease-out 1.5s both;
+        }
+
+        .countdown-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--burnt-orange);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: linear-gradient(135deg, var(--primary-red), var(--deep-red));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            min-width: 100px;
+            box-shadow: 0 10px 30px rgba(196, 30, 58, 0.3);
+            border: 2px solid var(--golden-yellow);
+            transition: transform 0.3s ease;
+        }
+
+        .countdown-item:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .countdown-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Cinzel', serif;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        /* Content Sections */
+        section {
+            padding: 80px 20px;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--primary-red);
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--golden-yellow), transparent);
+        }
+
+        /* About Couple */
+        .couple-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .person-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(196, 30, 58, 0.15);
+            border: 2px solid var(--golden-yellow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .person-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(196, 30, 58, 0.25);
+        }
+
+        .person-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary-red);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .person-details {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--dark-maroon);
+        }
+
+        /* Invitation Message */
+        .invitation-message {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(196, 30, 58, 0.15);
+            border: 2px solid var(--golden-yellow);
+            font-size: 1.3rem;
+            line-height: 2;
+            text-align: center;
+            color: var(--dark-maroon);
+        }
+
+        .invitation-message p {
+            margin-bottom: 20px;
+        }
+
+        .invitation-message strong {
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        /* Map Section */
+        .map-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(196, 30, 58, 0.2);
+            border: 3px solid var(--golden-yellow);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--dark-maroon);
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 15px 50px rgba(196, 30, 58, 0.15);
+            border: 2px solid var(--golden-yellow);
+        }
+
+        .contact-info a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid var(--golden-yellow);
+            transition: all 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--burnt-orange);
+            border-bottom-color: var(--primary-red);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--deep-red), var(--primary-red));
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        footer p {
+            margin: 10px 0;
+        }
+
+        /* Decorative Elements */
+        .flower-decoration {
+            font-size: 2rem;
+            color: var(--golden-yellow);
+            margin: 20px 0;
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .couple-names {
+                font-size: 2.8rem;
+            }
+
+            .ampersand {
+                font-size: 2rem;
+                margin: 0 10px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .countdown-item {
+                min-width: 80px;
+                padding: 15px;
+            }
+
+            .countdown-number {
+                font-size: 2rem;
+            }
+
+            .decorative-border {
+                padding: 40px 25px;
+            }
+
+            .person-name {
+                font-size: 2rem;
+            }
+
+            .invitation-message,
+            .person-card {
+                padding: 30px 20px;
+            }
+
+            .photo-frame {
+                width: 160px;
+                height: 160px;
+            }
+
+            .heart-divider {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .couple-names {
+                font-size: 2.2rem;
+            }
+
+            .mantra {
+                font-size: 0.95rem;
+            }
+
+            .invitation-text {
+                font-size: 1.1rem;
+            }
+
+            .countdown-item {
+                min-width: 70px;
+                padding: 12px;
+            }
+
+            .countdown-number {
+                font-size: 1.8rem;
+            }
+
+            .countdown-label {
+                font-size: 0.8rem;
+            }
+
+            .photo-frame {
+                width: 140px;
+                height: 140px;
+            }
+
+            .couple-photos {
+                gap: 20px;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="decorative-border">
+                <div class="mantra">
+                    ওঁ গং গণপতয়ে নমঃ<br>
+                    (Om Gam Ganapataye Namaha)
+                </div>
 
-    <div class="container mx-auto p-4 md:p-8 max-w-7xl relative">
-        
-        <div class="absolute top-4 right-4 md:top-8 md:right-8 z-10">
-            <button id="themeToggle" class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
-                <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-                <svg id="themeIconMoon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-            </button>
-        </div>
-
-        <header class="mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 dark:text-gray-100 transition-colors duration-300">Metal Weight Calculator</h1>
-            <p class="text-center text-gray-600 dark:text-gray-400 mt-2 transition-colors duration-300">Calculate the weight of standard metal components.</p>
-        </header>
-
-        <div class="flex flex-col md:flex-row gap-8">
-            <nav class="w-full md:w-64 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-4 h-full transition-colors duration-300">
-                <ul class="space-y-2">
-                    <li><a href="#" class="nav-link flex items-center gap-3 p-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300" data-target="pipe">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16M4 16h16" /><path stroke-linecap="round" stroke-linejoin="round" d="M8 4a4 4 0 014 4h0a4 4 0 01-4 4H4v8h4a4 4 0 004-4h0a4 4 0 00-4-4H4V4z" opacity="0.6"/></svg>
-                        Pipe
-                    </a></li>
-                    <li><a href="#" class="nav-link flex items-center gap-3 p-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300" data-target="reducer">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" opacity="0.6" /></svg>
-                        Reducer
-                    </a></li>
-                    <li><a href="#" class="nav-link flex items-center gap-3 p-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300" data-target="plate">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2h-4M9 4V3a1 1 0 011-1h4a1 1 0 011 1v1M9 4h6" opacity="0.6"/></svg>
-                        Plate / Disc
-                    </a></li>
-                    <li><a href="#" class="nav-link flex items-center gap-3 p-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300" data-target="dish">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" opacity="0.6"/></svg>
-                        Dish End
-                    </a></li>
-                    <li><a href="#" class="nav-link flex items-center gap-3 p-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300" data-target="angle">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v-6a2 2 0 012-2h8a2 2 0 012 2v6m-2-2h2m-4-4V4m0 4H4" opacity="0.6"/></svg>
-                        Angle
-                    </a></li>
-                    <li><a href="#" class="nav-link flex items-center gap-3 p-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300" data-target="channel">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16V6a2 2 0 012-2h12a2 2 0 012 2v10m-6-4h.01M12 12h.01M18 12h.01M6 12h.01" opacity="0.6"/></svg>
-                        Channel
-                    </a></li>
-                    <li><a href="#" class="nav-link flex items-center gap-3 p-3 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-300" data-target="beam">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 dark:text-gray-400 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" opacity="0.6"/></svg>
-                        I-Beam
-                    </a></li>
-                </ul>
-            </nav>
-
-            <main class="flex-1 bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6 md:p-8 transition-colors duration-300">
+                <!-- Couple Photos -->
+                <div class="couple-photos">
+                    <div class="photo-container">
+                        <div class="photo-frame">
+                            <div class="photo-placeholder">👰</div>
+                            <!-- Replace with: <img src="path-to-tanmoy-photo.jpg" alt="Tanmoy"> -->
+                        </div>
+                        <div class="photo-label">Tanmoy</div>
+                    </div>
+                    
+                    <div class="heart-divider">❤️</div>
+                    
+                    <div class="photo-container">
+                        <div class="photo-frame">
+                            <div class="photo-placeholder">🤵</div>
+                            <!-- Replace with: <img src="path-to-priyanka-photo.jpg" alt="Priyanka"> -->
+                        </div>
+                        <div class="photo-label">Priyanka</div>
+                    </div>
+                </div>
                 
-                <div id="pipeCalculator" class="calc-pane">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 transition-colors duration-300">Pipe Weight</h2>
-                    <form id="pipeForm" class="space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner transition-colors duration-300">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="pipeMaterial" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Material</label>
-                                <select id="pipeMaterial" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="7850">Carbon Steel (7850 kg/m³)</option>
-                                    <option value="8000">Stainless Steel (8000 kg/m³)</option>
-                                    <option value="2700">Aluminum (2700 kg/m³)</option>
-                                    <option value="8960">Copper (8960 kg/m³)</option>
-                                    <option value="4500">Titanium (4500 kg/m³)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="pipeLength" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Length (mm)</label>
-                                <input type="number" id="pipeLength" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 1000">
-                            </div>
-                            <div>
-                                <label for="pipeOD" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Outer Diameter (mm)</label>
-                                <input type="number" id="pipeOD" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 114.3">
-                            </div>
-                            <div>
-                                <label for="pipeWT" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Wall Thickness (mm)</label>
-                                <input type="number" id="pipeWT" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 6.02">
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Calculate</button>
-                        <div id="pipeResult" class="mt-6 p-4 rounded-lg text-lg font-semibold text-center result-box"></div>
-                    </form>
+                <div class="invitation-text">
+                    You are invited to the wedding of
                 </div>
-
-                <div id="reducerCalculator" class="calc-pane">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 transition-colors duration-300">Reducer (Concentric) Weight</h2>
-                    <form id="reducerForm" class="space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner transition-colors duration-300">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="reducerMaterial" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Material</label>
-                                <select id="reducerMaterial" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="7850">Carbon Steel (7850 kg/m³)</option>
-                                    <option value="8000">Stainless Steel (8000 kg/m³)</option>
-                                    <option value="2700">Aluminum (2700 kg/m³)</option>
-                                    <option value="8960">Copper (8960 kg/m³)</option>
-                                    <option value="4500">Titanium (4500 kg/m³)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="reducerLength" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Length / Height (mm)</label>
-                                <input type="number" id="reducerLength" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 152">
-                            </div>
-                            <div>
-                                <label for="reducerLargeOD" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Large Outer Diameter (mm)</label>
-                                <input type="number" id="reducerLargeOD" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 114.3">
-                            </div>
-                            <div>
-                                <label for="reducerSmallOD" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Small Outer Diameter (mm)</label>
-                                <input type="number" id="reducerSmallOD" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 60.3">
-                            </div>
-                             <div>
-                                <label for="reducerThickness" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Thickness (mm)</label>
-                                <input type="number" id="reducerThickness" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 6.02">
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Calculate</button>
-                        <div id="reducerResult" class="mt-6 p-4 rounded-lg text-lg font-semibold text-center result-box"></div>
-                    </form>
+                
+                <h1 class="couple-names">
+                    Tanmoy & Priyanka
+                </h1>
+                
+                <div class="wedding-date-display">
+                    9th March 2026
                 </div>
-
-                <div id="plateCalculator" class="calc-pane">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 transition-colors duration-300">Plate / Disc Weight</h2>
-                    <form id="plateForm" class="space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner transition-colors duration-300">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="plateMaterial" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Material</label>
-                                <select id="plateMaterial" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="7850">Carbon Steel (7850 kg/m³)</option>
-                                    <option value="8000">Stainless Steel (8000 kg/m³)</option>
-                                    <option value="2700">Aluminum (2700 kg/m³)</option>
-                                    <option value="8960">Copper (8960 kg/m³)</option>
-                                    <option value="4500">Titanium (4500 kg/m³)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="plateType" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Shape</label>
-                                <select id="plateType" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="rectangular">Rectangular</option>
-                                    <option value="circular">Circular (Disc)</option>
-                                </select>
-                            </div>
+                
+                <div class="countdown-section">
+                    <div class="countdown-title">COUNTDOWN TO OUR SPECIAL DAY</div>
+                    <div class="countdown" id="countdown">
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="days">--</span>
+                            <span class="countdown-label">Days</span>
                         </div>
-
-                        <div id="plateRectInputs" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <div>
-                                <label for="plateLength" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Length (mm)</label>
-                                <input type="number" id="plateLength" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 1000">
-                            </div>
-                            <div>
-                                <label for="plateWidth" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Width (mm)</label>
-                                <input type="number" id="plateWidth" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 500">
-                            </div>
-                            <div>
-                                <label for="plateThicknessRect" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Thickness (mm)</label>
-                                <input type="number" id="plateThicknessRect" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 10">
-                            </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="hours">--</span>
+                            <span class="countdown-label">Hours</span>
                         </div>
-                        
-                        <div id="plateCircInputs" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                             <div>
-                                <label for="plateDiameter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Diameter (mm)</label>
-                                <input type="number" id="plateDiameter" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 500">
-                            </div>
-                            <div>
-                                <label for="plateThicknessCirc" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Thickness (mm)</label>
-                                <input type="number" id="plateThicknessCirc" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 10">
-                            </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="minutes">--</span>
+                            <span class="countdown-label">Minutes</span>
                         </div>
-
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Calculate</button>
-                        <div id="plateResult" class="mt-6 p-4 rounded-lg text-lg font-semibold text-center result-box"></div>
-                    </form>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="seconds">--</span>
+                            <span class="countdown-label">Seconds</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <div id="dishCalculator" class="calc-pane">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 transition-colors duration-300">Dish End Weight</h2>
-                    <form id="dishForm" class="space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner transition-colors duration-300">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="dishMaterial" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Material</label>
-                                <select id="dishMaterial" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="7850">Carbon Steel (7850 kg/m³)</option>
-                                    <option value="8000">Stainless Steel (8000 kg/m³)</option>
-                                    <option value="2700">Aluminum (2700 kg/m³)</option>
-                                    <option value="8960">Copper (8960 kg/m³)</option>
-                                    <option value="4500">Titanium (4500 kg/m³)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="dishDiameter" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Outer Diameter (mm)</label>
-                                <input type="number" id="dishDiameter" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 1000">
-                            </div>
-                            <div>
-                                <label for="dishThickness" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Thickness (mm)</label>
-                                <input type="number" id="dishThickness" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 10">
-                            </div>
-                        </div>
-                        <div class="text-xs text-center text-gray-500 dark:text-gray-400">
-                            *Calculation is an approximation for a standard 2:1 elliptical dish end.
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Calculate</button>
-                        <div id="dishResult" class="mt-6 p-4 rounded-lg text-lg font-semibold text-center result-box"></div>
-                    </form>
+        <!-- Invitation Message -->
+        <section>
+            <h2 class="section-title">Join Us in Celebration</h2>
+            <div class="invitation-message">
+                <span class="flower-decoration">🌺 ✦ 🌺</span>
+                <p>
+                    With great joy and gratitude, we invite you to witness and bless the sacred union of our beloved daughter and son.
+                </p>
+                <p>
+                    As two souls come together in the presence of <strong>Lord Ganesha</strong> and our cherished family and friends, we seek your blessings for this divine beginning.
+                </p>
+                <p>
+                    Your presence will add to the joy of this auspicious occasion and make our celebration complete.
+                </p>
+                <p>
+                    Please grace us with your presence and shower your blessings upon the couple as they embark on this beautiful journey together.
+                </p>
+                <span class="flower-decoration">🌺 ✦ 🌺</span>
+            </div>
+        </section>
+
+        <!-- About the Couple -->
+        <section>
+            <h2 class="section-title">About the Couple</h2>
+            <div class="couple-details">
+                <div class="person-card">
+                    <h3 class="person-name">Tanmoy</h3>
+                    <p style="font-size: 1.2rem; color: var(--burnt-orange); margin-bottom: 20px; font-style: italic;">
+                        Son of Ajit Kumar Barui & Dalia Barui
+                    </p>
+                    <div class="person-details">
+                        <p>Balitikuri, Kalitala</p>
+                        <p>Howrah - 711113</p>
+                        <p>********</p>
+                    </div>
                 </div>
-
-                <div id="angleCalculator" class="calc-pane">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 transition-colors duration-300">Angle Weight</h2>
-                    <form id="angleForm" class="space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner transition-colors duration-300">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="angleMaterial" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Material</label>
-                                <select id="angleMaterial" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="7850">Carbon Steel (7850 kg/m³)</option>
-                                    <option value="8000">Stainless Steel (8000 kg/m³)</option>
-                                    <option value="2700">Aluminum (2700 kg/m³)</option>
-                                    <option value="8960">Copper (8960 kg/m³)</option>
-                                    <option value="4500">Titanium (4500 kg/m³)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="angleLength" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Length (mm)</label>
-                                <input type="number" id="angleLength" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 1000">
-                            </div>
-                            <div>
-                                <label for="angleLegA" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Leg A (mm)</label>
-                                <input type="number" id="angleLegA" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 50">
-                            </div>
-                            <div>
-                                <label for="angleLegB" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Leg B (mm)</label>
-                                <input type="number" id="angleLegB" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 50">
-                            </div>
-                            <div>
-                                <label for="angleThickness" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Thickness (mm)</label>
-                                <input type="number" id="angleThickness" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 5">
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Calculate</button>
-                        <div id="angleResult" class="mt-6 p-4 rounded-lg text-lg font-semibold text-center result-box"></div>
-                    </form>
+                <div class="person-card">
+                    <h3 class="person-name">Priyanka</h3>
+                    <p style="font-size: 1.2rem; color: var(--burnt-orange); margin-bottom: 20px; font-style: italic;">
+                        Daughter of Sumanta Hazra & Papiya Hazra
+                    </p>
+                    <div class="person-details">
+                        <p>30/2/1/1 Narasingha Dutta Road</p>
+                        <p>Kadamtala, Howrah - 711101</p>
+                        <p>********</p>
+                    </div>
                 </div>
+            </div>
+        </section>
 
-                <div id="channelCalculator" class="calc-pane">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 transition-colors duration-300">Channel Weight</h2>
-                    <form id="channelForm" class="space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner transition-colors duration-300">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="channelMaterial" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Material</label>
-                                <select id="channelMaterial" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="7850">Carbon Steel (7850 kg/m³)</option>
-                                    <option value="8000">Stainless Steel (8000 kg/m³)</option>
-                                    <option value="2700">Aluminum (2700 kg/m³)</option>
-                                    <option value="8960">Copper (8960 kg/m³)</option>
-                                    <option value="4500">Titanium (4500 kg/m³)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="channelLength" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Length (mm)</label>
-                                <input type="number" id="channelLength" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 1000">
-                            </div>
-                            <div>
-                                <label for="channelWeb" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Web (mm)</label>
-                                <input type="number" id="channelWeb" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 100">
-                            </div>
-                            <div>
-                                <label for="channelFlange" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Flange (mm)</label>
-                                <input type="number" id="channelFlange" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 50">
-                            </div>
-                            <div>
-                                <label for="channelThickness" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Thickness (mm)</label>
-                                <input type="number" id="channelThickness" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 6">
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Calculate</button>
-                        <div id="channelResult" class="mt-6 p-4 rounded-lg text-lg font-semibold text-center result-box"></div>
-                    </form>
-                </div>
+        <!-- Venue Map -->
+        <section>
+            <h2 class="section-title">Venue Location</h2>
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387.19559392210414!2d88.32596233675297!3d22.59233810858114!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a0277f3b7a7b06d%3A0x8082746a396260f0!2sAindrila%20Banquet!5e0!3m2!1sen!2sin!4v1769333680496!5m2!1sen!2sin" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
 
-                <div id="beamCalculator" class="calc-pane">
-                    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-6 transition-colors duration-300">I-Beam Weight</h2>
-                    <form id="beamForm" class="space-y-6 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-inner transition-colors duration-300">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="beamMaterial" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Material</label>
-                                <select id="beamMaterial" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300">
-                                    <option value="7850">Carbon Steel (7850 kg/m³)</option>
-                                    <option value="8000">Stainless Steel (8000 kg/m³)</option>
-                                    <option value="2700">Aluminum (2700 kg/m³)</option>
-                                    <option value="8960">Copper (8960 kg/m³)</option>
-                                    <option value="4500">Titanium (4500 kg/m³)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="beamLength" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Length (mm)</label>
-                                <input type="number" id="beamLength" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 1000">
-                            </div>
-                            <div>
-                                <label for="beamHeight" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Height (mm)</label>
-                                <input type="number" id="beamHeight" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 150">
-                            </div>
-                            <div>
-                                <label for="beamFlangeWidth" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Flange Width (mm)</label>
-                                <input type="number" id="beamFlangeWidth" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 75">
-                            </div>
-                            <div>
-                                <label for="beamWebThickness" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Web Thickness (mm)</label>
-                                <input type="number" id="beamWebThickness" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 5.5">
-                            </div>
-                            <div>
-                                <label for="beamFlangeThickness" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 transition-colors duration-300">Flange Thickness (mm)</label>
-                                <input type="number" id="beamFlangeThickness" class="w-full p-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 rounded-lg focus:ring-blue-500 focus:border-blue-500 transition-colors duration-300" placeholder="e.g., 8.5">
-                            </div>
-                        </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">Calculate</button>
-                        <div id="beamResult" class="mt-6 p-4 rounded-lg text-lg font-semibold text-center result-box"></div>
-                    </form>
-                </div>
-
-            </main>
-        </div>
+        <!-- Contact Information -->
+        <section>
+            <h2 class="section-title">Contact Us</h2>
+            <div class="contact-info">
+                <p>For any queries or information, please feel free to contact:</p>
+                <p style="margin-top: 20px;">
+                    <strong>Phone:</strong> <a href="tel:8240749830">8240749830</a>
+                </p>
+            </div>
+        </section>
     </div>
 
+    <!-- Footer -->
+    <footer>
+        <p>✦ With love and blessings ✦</p>
+        <p>Tanmoy & Priyanka</p>
+        <p>9th March 2026</p>
+    </footer>
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        // Countdown Timer
+        function updateCountdown() {
+            const weddingDate = new Date('2026-03-09T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
 
-            // --- Theme Toggle ---
-            const themeToggle = document.getElementById('themeToggle');
-            const sunIcon = document.getElementById('themeIconSun');
-            const moonIcon = document.getElementById('themeIconMoon');
-            const docElement = document.documentElement;
-
-            // Apply saved theme on load
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                docElement.classList.add('dark');
-                sunIcon.style.display = 'block';
-                moonIcon.style.display = 'none';
-            } else {
-                docElement.classList.remove('dark');
-                sunIcon.style.display = 'none';
-                moonIcon.style.display = 'block';
+            if (distance < 0) {
+                document.getElementById('countdown').innerHTML = '<div style="font-size: 2rem; color: var(--golden-yellow);">The Wedding Day is Here! 🎉</div>';
+                return;
             }
 
-            // Toggle theme on click
-            themeToggle.addEventListener('click', () => {
-                docElement.classList.toggle('dark');
-                const isDark = docElement.classList.contains('dark');
-                localStorage.setItem('theme', isDark ? 'dark' : 'light');
-                sunIcon.style.display = isDark ? 'block' : 'none';
-                moonIcon.style.display = isDark ? 'none' : 'block';
-            });
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // --- Navigation ---
-            const navLinks = document.querySelectorAll('.nav-link');
-            const calcPanes = document.querySelectorAll('.calc-pane');
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
 
-            function showPane(targetId) {
-                // Hide all panes
-                calcPanes.forEach(pane => {
-                    pane.classList.remove('active');
-                });
-                // Deactivate all links
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                });
+        // Update countdown every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
 
-                // Show target pane
-                const targetPane = document.getElementById(targetId + 'Calculator');
-                if (targetPane) {
-                    targetPane.classList.add('active');
-                }
-                // Activate target link
-                const targetLink = document.querySelector(`.nav-link[data-target="${targetId}"]`);
-                if (targetLink) {
-                    targetLink.classList.add('active');
-                }
-            }
-
-            // Add click event to nav links
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('data-target');
-                    showPane(targetId);
-                });
-            });
-
-            // Show 'pipe' pane by default
-            showPane('pipe');
-
-            // --- Plate Calculator Logic ---
-            const plateType = document.getElementById('plateType');
-            const rectInputs = document.getElementById('plateRectInputs');
-            const circInputs = document.getElementById('plateCircInputs');
-
-            function togglePlateInputs() {
-                if (plateType.value === 'rectangular') {
-                    rectInputs.style.display = 'grid';
-                    circInputs.style.display = 'none';
-                } else {
-                    rectInputs.style.display = 'none';
-                    circInputs.style.display = 'grid';
-                }
-            }
-            plateType.addEventListener('change', togglePlateInputs);
-            // Show correct plate inputs on load
-            togglePlateInputs();
-
-            // --- Helper Functions ---
-            function showResult(resultEl, message, isError = false) {
-                resultEl.classList.remove('show', 'bg-green-100', 'text-green-700', 'dark:bg-green-900', 'dark:text-green-300', 'bg-red-100', 'text-red-700', 'dark:bg-red-900', 'dark:text-red-300');
-                
-                if (isError) {
-                    resultEl.innerHTML = `<strong>Error:</strong> ${message}`;
-                    resultEl.classList.add('bg-red-100', 'text-red-700', 'dark:bg-red-900', 'dark:text-red-300');
-                } else {
-                    resultEl.innerHTML = `Calculated Weight: <strong>${message}</strong>`;
-                    resultEl.classList.add('bg-green-100', 'text-green-700', 'dark:bg-green-900', 'dark:text-green-300');
-                }
-                
-                // Trigger animation
-                resultEl.classList.add('show');
-            }
-
-            function getFloats(ids) {
-                const values = ids.map(id => parseFloat(document.getElementById(id).value));
-                if (values.some(v => isNaN(v) || v <= 0)) {
-                    return null; // Invalid input
-                }
-                return values;
-            }
-
-            // --- Calculation Event Listeners ---
-
-            // 1. Pipe
-            document.getElementById('pipeForm').addEventListener('submit', (e) => {
+        // Smooth scroll for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const resultEl = document.getElementById('pipeResult');
-                const density = parseFloat(document.getElementById('pipeMaterial').value);
-                const inputs = getFloats(['pipeLength', 'pipeOD', 'pipeWT']);
-                
-                if (!inputs) {
-                    showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                    return;
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
                 }
-                
-                const [L_mm, OD_mm, WT_mm] = inputs;
-
-                if (WT_mm * 2 >= OD_mm) {
-                    showResult(resultEl, 'Wall thickness cannot be greater than or equal to half the outer diameter.', true);
-                    return;
-                }
-                
-                const L_m = L_mm / 1000;
-                const OD_m = OD_mm / 1000;
-                const WT_m = WT_mm / 1000;
-                
-                const ID_m = OD_m - (2 * WT_m);
-                const outerRadius = OD_m / 2;
-                const innerRadius = ID_m / 2;
-                
-                const volume = L_m * Math.PI * (Math.pow(outerRadius, 2) - Math.pow(innerRadius, 2));
-                const weight = volume * density;
-                
-                showResult(resultEl, `${weight.toFixed(2)} kg`);
             });
-
-            // 2. Reducer
-            document.getElementById('reducerForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const resultEl = document.getElementById('reducerResult');
-                const density = parseFloat(document.getElementById('reducerMaterial').value);
-                const inputs = getFloats(['reducerLength', 'reducerLargeOD', 'reducerSmallOD', 'reducerThickness']);
-
-                if (!inputs) {
-                    showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                    return;
-                }
-
-                const [L_mm, D1_mm, D2_mm, T_mm] = inputs;
-
-                if (T_mm * 2 >= D2_mm || T_mm * 2 >= D1_mm) {
-                     showResult(resultEl, 'Thickness cannot be greater than half of either diameter.', true);
-                    return;
-                }
-                if (D2_mm > D1_mm) {
-                     showResult(resultEl, 'Small diameter cannot be larger than large diameter.', true);
-                    return;
-                }
-                
-                const L_m = L_mm / 1000;
-                const T_m = T_mm / 1000;
-                
-                // Outer frustum
-                const R1_m = (D1_mm / 1000) / 2;
-                const R2_m = (D2_mm / 1000) / 2;
-                const volOuter = (Math.PI * L_m / 3) * (Math.pow(R1_m, 2) + R1_m * R2_m + Math.pow(R2_m, 2));
-                
-                // Inner frustum
-                const r1_m = R1_m - T_m;
-                const r2_m = R2_m - T_m;
-                const volInner = (Math.PI * L_m / 3) * (Math.pow(r1_m, 2) + r1_m * r2_m + Math.pow(r2_m, 2));
-
-                const volume = volOuter - volInner;
-                const weight = volume * density;
-                
-                showResult(resultEl, `${weight.toFixed(2)} kg`);
-            });
-
-            // 3. Plate
-            document.getElementById('plateForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const resultEl = document.getElementById('plateResult');
-                const density = parseFloat(document.getElementById('plateMaterial').value);
-                const type = document.getElementById('plateType').value;
-                
-                let inputs, L_mm, W_mm, T_mm, D_mm, T_circ_mm;
-                let volume = 0;
-
-                if (type === 'rectangular') {
-                    inputs = getFloats(['plateLength', 'plateWidth', 'plateThicknessRect']);
-                    if (!inputs) {
-                        showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                        return;
-                    }
-                    [L_mm, W_mm, T_mm] = inputs;
-                    volume = (L_mm / 1000) * (W_mm / 1000) * (T_mm / 1000);
-                } else {
-                    inputs = getFloats(['plateDiameter', 'plateThicknessCirc']);
-                     if (!inputs) {
-                        showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                        return;
-                    }
-                    [D_mm, T_circ_mm] = inputs;
-                    const radius_m = (D_mm / 1000) / 2;
-                    volume = Math.PI * Math.pow(radius_m, 2) * (T_circ_mm / 1000);
-                }
-                
-                const weight = volume * density;
-                showResult(resultEl, `${weight.toFixed(2)} kg`);
-            });
-
-            // 4. Dish End
-            document.getElementById('dishForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const resultEl = document.getElementById('dishResult');
-                const density = parseFloat(document.getElementById('dishMaterial').value);
-                const inputs = getFloats(['dishDiameter', 'dishThickness']);
-
-                if (!inputs) {
-                    showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                    return;
-                }
-                
-                const [D_mm, T_mm] = inputs;
-                const D_m = D_mm / 1000;
-                const T_m = T_mm / 1000;
-
-                // Approx. surface area for a 2:1 elliptical dish is 1.084 * D^2
-                const surfaceArea = 1.084 * Math.pow(D_m, 2);
-                const volume = surfaceArea * T_m;
-                const weight = volume * density;
-                
-                showResult(resultEl, `${weight.toFixed(2)} kg`);
-            });
-
-            // 5. Angle
-            document.getElementById('angleForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const resultEl = document.getElementById('angleResult');
-                const density = parseFloat(document.getElementById('angleMaterial').value);
-                const inputs = getFloats(['angleLength', 'angleLegA', 'angleLegB', 'angleThickness']);
-                
-                if (!inputs) {
-                    showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                    return;
-                }
-
-                const [L_mm, A_mm, B_mm, T_mm] = inputs;
-
-                if (T_mm > A_mm || T_mm > B_mm) {
-                    showResult(resultEl, 'Thickness cannot be greater than Leg A or Leg B.', true);
-                    return;
-                }
-
-                const L_m = L_mm / 1000;
-                const A_m = A_mm / 1000;
-                const B_m = B_mm / 1000;
-                const T_m = T_mm / 1000;
-                
-                // Area = (Area of Leg A) + (Area of Leg B) - (Area of overlapping square)
-                // (A * T) + (B * T) - (T * T)
-                // Or simplified: (A * T) + (B - T) * T
-                const crossSectionalArea = (A_m * T_m) + (B_m - T_m) * T_m;
-                const volume = crossSectionalArea * L_m;
-                const weight = volume * density;
-                
-                showResult(resultEl, `${weight.toFixed(2)} kg`);
-            });
-
-            // 6. Channel
-            document.getElementById('channelForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const resultEl = document.getElementById('channelResult');
-                const density = parseFloat(document.getElementById('channelMaterial').value);
-                const inputs = getFloats(['channelLength', 'channelWeb', 'channelFlange', 'channelThickness']);
-                
-                if (!inputs) {
-                    showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                    return;
-                }
-
-                const [L_mm, Web_mm, Flange_mm, T_mm] = inputs;
-
-                if (T_mm * 2 > Web_mm || T_mm > Flange_mm) {
-                    showResult(resultEl, 'Thickness is too large for the given dimensions.', true);
-                    return;
-                }
-                
-                const L_m = L_mm / 1000;
-                const Web_m = Web_mm / 1000;
-                const Flange_m = Flange_mm / 1000;
-                const T_m = T_mm / 1000;
-
-                // Area = (Area of Web) + 2 * (Area of flanges, minus web thickness)
-                const crossSectionalArea = (Web_m * T_m) + 2 * (Flange_m - T_m) * T_m;
-                const volume = crossSectionalArea * L_m;
-                const weight = volume * density;
-                
-                showResult(resultEl, `${weight.toFixed(2)} kg`);
-            });
-
-            // 7. I-Beam
-            document.getElementById('beamForm').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const resultEl = document.getElementById('beamResult');
-                const density = parseFloat(document.getElementById('beamMaterial').value);
-                const inputs = getFloats(['beamLength', 'beamHeight', 'beamFlangeWidth', 'beamWebThickness', 'beamFlangeThickness']);
-                
-                if (!inputs) {
-                    showResult(resultEl, 'Please enter valid, positive numbers for all dimensions.', true);
-                    return;
-                }
-
-                const [L_mm, H_mm, W_mm, T_web_mm, T_flange_mm] = inputs;
-
-                if (T_flange_mm * 2 > H_mm || T_web_mm > W_mm) {
-                     showResult(resultEl, 'Thickness is too large for the given dimensions.', true);
-                    return;
-                }
-
-                const L_m = L_mm / 1000;
-                const H_m = H_mm / 1000;
-                const W_m = W_mm / 1000;
-                const T_web_m = T_web_mm / 1000;
-                const T_flange_m = T_flange_mm / 1000;
-                
-                // Area = (Area of web) + 2 * (Area of flanges)
-                const webArea = (H_m - 2 * T_flange_m) * T_web_m;
-                const flangeArea = 2 * (W_m * T_flange_m);
-                const crossSectionalArea = webArea + flangeArea;
-                
-                const volume = crossSectionalArea * L_m;
-                const weight = volume * density;
-                
-                showResult(resultEl, `${weight.toFixed(2)} kg`);
-            });
-
         });
     </script>
 </body>
