@@ -1554,7 +1554,6 @@
         function displayBlessings(blessings) {
             blessingsList.innerHTML = blessings.map(blessing => `
                 <div class="blessing-card">
-                    <div class="blessing-author">${escapeHtml(blessing.name)}</div>
                     <div class="blessing-text">"${escapeHtml(blessing.message)}"</div>
                     <div class="blessing-date">${formatDate(blessing.date)}</div>
                 </div>
