@@ -623,6 +623,210 @@
             50% { transform: scale(1.05); opacity: 0.85; }
         }
 
+        /* Traditional Bengali Alpona Pattern */
+        .alpona-corner {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.3;
+        }
+
+        .alpona-top-left {
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at 0% 0%, 
+                var(--golden-yellow) 0%, 
+                transparent 2%,
+                var(--golden-yellow) 3%,
+                transparent 4%,
+                var(--primary-red) 5%,
+                transparent 6%,
+                var(--golden-yellow) 8%,
+                transparent 10%);
+            background-size: 30px 30px;
+            animation: alpona-draw 3s ease-in-out infinite;
+        }
+
+        .alpona-top-right {
+            top: 0;
+            right: 0;
+            background: radial-gradient(circle at 100% 0%, 
+                var(--golden-yellow) 0%, 
+                transparent 2%,
+                var(--golden-yellow) 3%,
+                transparent 4%,
+                var(--primary-red) 5%,
+                transparent 6%,
+                var(--golden-yellow) 8%,
+                transparent 10%);
+            background-size: 30px 30px;
+            animation: alpona-draw 3s ease-in-out infinite 1s;
+        }
+
+        @keyframes alpona-draw {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Diya (Oil Lamp) Decorations */
+        .diya-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            pointer-events: none;
+            z-index: 5;
+            padding: 0 20px;
+        }
+
+        .diya {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            cursor: pointer;
+            pointer-events: all;
+            transition: transform 0.3s ease;
+        }
+
+        .diya:hover {
+            transform: scale(1.2);
+        }
+
+        .diya-base {
+            width: 40px;
+            height: 20px;
+            background: linear-gradient(to bottom, #D4AF37, #B8860B);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            bottom: 0;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.5);
+        }
+
+        .diya-flame {
+            width: 15px;
+            height: 25px;
+            background: linear-gradient(to top, 
+                #FFA500 0%, 
+                #FFD700 50%, 
+                #FFFF00 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            animation: flicker 1.5s ease-in-out infinite;
+        }
+
+        .diya.lit .diya-flame {
+            opacity: 1;
+        }
+
+        .diya-glow {
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.6) 0%, transparent 70%);
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .diya.lit .diya-glow {
+            opacity: 1;
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { transform: translateX(-50%) scaleY(1); }
+            25% { transform: translateX(-50%) scaleY(1.1); }
+            50% { transform: translateX(-50%) scaleY(0.95); }
+            75% { transform: translateX(-50%) scaleY(1.05); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+        }
+
+        /* Falling Flower Garland */
+        .garland {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 9998;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Rangoli Pattern in Center */
+        .rangoli-pattern {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
+        }
+
+        .rangoli-circle {
+            position: absolute;
+            border: 2px solid var(--golden-yellow);
+            border-radius: 50%;
+            animation: rangoli-rotate 20s linear infinite;
+        }
+
+        .rangoli-circle:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .rangoli-circle:nth-child(2) {
+            width: 75%;
+            height: 75%;
+            top: 12.5%;
+            left: 12.5%;
+            border-color: var(--primary-red);
+            animation-direction: reverse;
+        }
+
+        .rangoli-circle:nth-child(3) {
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            left: 25%;
+            border-color: var(--burnt-orange);
+        }
+
+        @keyframes rangoli-rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         /* Guest Blessings Section */
         .blessings-form-container {
             max-width: 700px;
@@ -1190,6 +1394,15 @@
                 font-size: 1.6rem;
                 margin-bottom: 30px;
             }
+
+            .diya-container {
+                display: none; /* Hide diyas on mobile for better performance */
+            }
+
+            .alpona-corner {
+                width: 100px;
+                height: 100px;
+            }
         }
                 height: 25px;
             }
@@ -1202,6 +1415,47 @@
         <source src="wedding-music.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
+    <!-- Traditional Bengali Decorations -->
+    <!-- Alpona Corner Patterns -->
+    <div class="alpona-corner alpona-top-left"></div>
+    <div class="alpona-corner alpona-top-right"></div>
+
+    <!-- Rangoli Pattern -->
+    <div class="rangoli-pattern">
+        <div class="rangoli-circle"></div>
+        <div class="rangoli-circle"></div>
+        <div class="rangoli-circle"></div>
+    </div>
+
+    <!-- Diya Lamps -->
+    <div class="diya-container" id="diyaContainer">
+        <div class="diya" onclick="lightDiya(this)">
+            <div class="diya-base"></div>
+            <div class="diya-flame"></div>
+            <div class="diya-glow"></div>
+        </div>
+        <div class="diya" onclick="lightDiya(this)">
+            <div class="diya-base"></div>
+            <div class="diya-flame"></div>
+            <div class="diya-glow"></div>
+        </div>
+        <div class="diya" onclick="lightDiya(this)">
+            <div class="diya-base"></div>
+            <div class="diya-flame"></div>
+            <div class="diya-glow"></div>
+        </div>
+        <div class="diya" onclick="lightDiya(this)">
+            <div class="diya-base"></div>
+            <div class="diya-flame"></div>
+            <div class="diya-glow"></div>
+        </div>
+        <div class="diya" onclick="lightDiya(this)">
+            <div class="diya-base"></div>
+            <div class="diya-flame"></div>
+            <div class="diya-glow"></div>
+        </div>
+    </div>
 
     <!-- Music Control Button -->
     <div class="music-control" id="musicToggle" title="Click to play/pause music">
@@ -1417,6 +1671,71 @@
         // Update countdown every second
         updateCountdown();
         setInterval(updateCountdown, 1000);
+
+        // Traditional Bengali Decorations - Diya Lighting
+        function lightDiya(diyaElement) {
+            diyaElement.classList.toggle('lit');
+            
+            // Create flower garland fall effect when diya is lit
+            if (diyaElement.classList.contains('lit')) {
+                createFallingGarland(diyaElement);
+            }
+        }
+
+        // Auto-light all diyas after 2 seconds
+        setTimeout(() => {
+            const diyas = document.querySelectorAll('.diya');
+            diyas.forEach((diya, index) => {
+                setTimeout(() => {
+                    diya.classList.add('lit');
+                }, index * 300);
+            });
+        }, 2000);
+
+        // Falling Flower Garland Animation
+        function createFallingGarland(sourceElement) {
+            const flowers = ['🌺', '🌸', '🏵️', '💐', '🌼', '🌻'];
+            const garland = document.createElement('div');
+            garland.className = 'garland';
+            garland.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+            
+            const rect = sourceElement.getBoundingClientRect();
+            garland.style.left = rect.left + (rect.width / 2) + 'px';
+            garland.style.top = rect.top + 'px';
+            
+            const duration = 3 + Math.random() * 2;
+            garland.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(garland);
+            
+            setTimeout(() => {
+                garland.remove();
+            }, duration * 1000);
+        }
+
+        // Random falling flowers every few seconds
+        function randomGarlandFall() {
+            const x = Math.random() * window.innerWidth;
+            const flowers = ['🌺', '🌸', '🏵️', '💐', '🌼', '🌻', '🪷'];
+            
+            const garland = document.createElement('div');
+            garland.className = 'garland';
+            garland.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+            garland.style.left = x + 'px';
+            garland.style.top = '-50px';
+            
+            const duration = 5 + Math.random() * 3;
+            garland.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(garland);
+            
+            setTimeout(() => {
+                garland.remove();
+            }, duration * 1000);
+        }
+
+        // Start random falling flowers
+        setInterval(randomGarlandFall, 3000);
 
         // Smooth scroll for better UX
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
